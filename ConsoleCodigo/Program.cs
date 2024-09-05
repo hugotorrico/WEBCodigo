@@ -40,6 +40,8 @@ class Program
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             
             HttpResponseMessage response = await client.PostAsync(url, content);
+           
+
 
             // Verificar si la respuesta fue exitosa
             if (response.IsSuccessStatusCode)
