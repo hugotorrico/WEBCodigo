@@ -1,0 +1,43 @@
+﻿@model WEBCodigo.Models.Customer
+
+@{
+    ViewBag.Title = "Create Customer";
+}
+
+<h2>Create Customer</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Message
+    </div>
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DocumentNumber)
+        @Html.TextBoxFor(m => m.DocumentNumber, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DocumentType)
+        @Html.TextBoxFor(m => m.DocumentType, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsActive)
+        @Html.CheckBoxFor(m => m.IsActive)
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+}
+
