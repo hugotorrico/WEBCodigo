@@ -12,11 +12,49 @@ class Program
     static async Task Main(string[] args)
     {
         //await GetCustomers();
-        await GetProducts();
-
+        //await GetProducts();
+        await InsertCustomer();
         Console.Read();
 
     }
+
+    private static async Task InsertCustomer()
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            // URL del servicio
+            string url = "https://localhost:7227/api/Customers/Insert";
+
+            var customer = new
+            {
+                customerID = 0,
+                name = "string2",
+                documentNumber = "string2",
+                documentType = "string2",
+                isActive = true
+            };
+
+            // Serializar el objeto a JSON
+            var json = JsonSerializer.Serialize(customer);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            
+            HttpResponseMessage response = await client.PostAsync(url, content);
+
+            // Verificar si la respuesta fue exitosa
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Customer inserted successfully.");
+            }
+            else
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+            }
+
+        }
+
+    }
+
 
     private static async Task GetCustomers()
     {
