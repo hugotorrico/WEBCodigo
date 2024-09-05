@@ -1,0 +1,39 @@
+﻿@model IEnumerable<WEBCodigo.Models.Customer>
+
+@{
+    ViewBag.Title = "Customers";
+}
+
+<h2>Customers</h2>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Document Number</th>
+                <th>Document Type</th>
+                <th>Is Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.CustomerID</td>
+                    <td>@customer.Name</td>
+                    <td>@customer.DocumentNumber</td>
+                    <td>@customer.DocumentType</td>
+                    <td>@customer.IsActive</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

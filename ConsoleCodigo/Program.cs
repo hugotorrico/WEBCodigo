@@ -11,7 +11,9 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        await GetCustomers();
+        //await GetCustomers();
+        await GetProducts();
+
         Console.Read();
 
     }
@@ -35,6 +37,36 @@ class Program
                 foreach (var customer in customers)
                 {
                     Console.WriteLine($"ID: {customer.CustomerID}, Name: {customer.Name}, Document: {customer.DocumentNumber}, Type: {customer.DocumentType}, Active: {customer.IsActive}");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Llamada con error");
+
+            }
+        }
+    }
+
+    private static async Task GetProducts()
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            // URL del servicio
+            string url = "https://localhost:7227/api/Products/GetByFilters";
+
+            //Guardar response
+            HttpResponseMessage response = await client.GetAsync(url);
+
+            // Verificar si la respuesta fue exitosa
+            if (response.IsSuccessStatusCode)
+            {
+                // Leer y deserializar el contenido de la respuesta
+                List<Product> products = await response.Content.ReadFromJsonAsync<List<Product>>();
+
+                foreach (var product in products)
+                {
+                    Console.WriteLine($"ID: {product.ProductID}, Name: {product.Name}, Price: {product.Price}");
                 }
 
             }
