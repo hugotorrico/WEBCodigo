@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json;
@@ -28,16 +29,11 @@ namespace WEBCodigo.Controllers
             if (ModelState.IsValid)
             {
                 
-                string token = await GetJwtTokenAsync( model.UserName, model.Password);
+                bool isLogin = await GetJwtTokenAsync( model.UserName, model.Password);
 
-                if (!string.IsNullOrEmpty(token))
+                if (isLogin)
                 {
-                    // Guardar el token en la sesión
-                  
-                    HttpContext.Session.SetString("JwtToken", token);
-                   
-
-                    // Redirigir a una página segura (por ejemplo, el dashboard)
+                                                                                             
                     return RedirectToAction("Index", "Customers");
                 }
                 else
@@ -50,7 +46,7 @@ namespace WEBCodigo.Controllers
         }
 
         // Función para obtener el token JWT desde el API
-        private async Task<string> GetJwtTokenAsync(string username, string password)
+        private async Task<bool> GetJwtTokenAsync(string username, string password)
         {
             string url = "https://localhost:7227/security/createToken";
             var loginData = new
@@ -68,10 +64,12 @@ namespace WEBCodigo.Controllers
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var tokenData = JsonSerializer.Deserialize<string>(responseContent);
-                return tokenData;
+
+                HttpContext.Session.SetString("JwtToken", tokenData);
+                return true;
             }
 
-            return null;
+            return false;
         }
 
        
