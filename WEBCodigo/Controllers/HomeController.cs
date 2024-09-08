@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WEBCodigo.Models;
 
 namespace WEBCodigo.Controllers
 {
+   
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -12,15 +14,17 @@ namespace WEBCodigo.Controllers
         {
             _logger = logger;
         }
-
+        
+        
         public IActionResult Index()
-        {
-            return View();
+        {                     
+          return View();                        
         }
 
+        [JwtAuthorizeAttribute]
         public IActionResult Privacy()
         {
-            return View();
+            return View();         
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
